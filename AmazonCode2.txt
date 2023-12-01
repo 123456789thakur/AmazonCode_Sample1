@@ -1,0 +1,61 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class AmazonPhoneSearch {
+
+    public static void main(String[] args) {
+        // Set the path to your ChromeDriver
+        System.setProperty("webdriver.chrome.driver", "path_to_chromedriver/chromedriver.exe");
+        
+       // Automate Flow 2: Register user, Search phone, apply filters, validate the filtered list
+
+        // Initialize Chrome driver
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+
+        // Navigate to Amazon.in
+        driver.get("https://www.amazon.in/");
+
+        // Click on the sign-in button (assuming you're not already signed in)
+        WebElement signInButton = driver.findElement(By.id("nav-signin-tooltip"));
+        signInButton.click();
+
+        // Navigate back to the homepage
+        driver.get("https://www.amazon.in/");
+
+        // Locate the search bar and enter the search query for a phone
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("phone");
+
+        // Click on the search button
+        WebElement searchButton = driver.findElement(By.id("nav-search-submit-button"));
+        searchButton.click();
+
+        // Apply filters for the phone search (e.g., filter by brand, price, etc.)
+
+        WebElement filterBrand = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Brand']/following-sibling::span")));
+        filterBrand.click();
+        WebElement brandOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Samsung']"))); // Change to your preferred brand
+        brandOption.click();
+
+        // Apply more filters if needed
+
+        // Validate the filtered list (e.g., check if the items displayed are from the selected brand)
+        // This validation can include checking elements, attributes, or any criteria you define
+
+          WebElement filteredResults = driver.findElement(By.xpath("//div[@class='s-result-list']/div[@data-brand='Samsung']"));
+         if (filteredResults.isDisplayed()) {
+            System.out.println("Filtering successful - Displayed items are from the selected brand");
+         } else {
+           System.out.println("Filtering failed - Items displayed do not match the selected brand");
+         }
+
+        // Close the browser
+
+        driver.quit();
+    }
+}

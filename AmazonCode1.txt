@@ -1,0 +1,40 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class AmazonAutomation {
+
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        WebDriver driver = new ChromeDriver();
+
+        // Automate Flow 1: Search iPhone, select from the list, go to product details page, select and store price in a variable, add to cart
+
+        driver.get("https://www.amazon.in");
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("iPhone");
+        searchBox.submit();
+
+        // Example: Clicking the first search result
+
+        WebElement firstResult = driver.findElement(By.xpath("//div[@data-index='0']//h2//a"));
+        firstResult.click();
+
+        // Example: Extracting and storing the price
+
+        WebElement priceElement = driver.findElement(By.id("priceblock_ourprice"));
+        String price = priceElement.getText();
+        System.out.println("The price is: " + price);
+
+        // Example: Adding to cart
+
+        WebElement addToCartButton = driver.findElement(By.id("add-to-cart-button"));
+        addToCartButton.click();
+
+        // Close the browser
+        driver.quit();
+    }
+}
+
